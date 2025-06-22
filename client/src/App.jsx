@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Home from './pages/home'
+import Navbar from './components/navBar'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import NavBar from './components/navBar'
+import Chats from './pages/Chats'
+export default function App(){
 
-function App() {
-  const [message, setMessage] = useState('Loading...')
+return(
+  <Router>
+    <NavBar/>
+    <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path="/chats" element={<Chats />} />
+    </Routes>
+  </Router>
+)
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/message')
-      .then(res => setMessage(res.data.message))
-      .catch(() => setMessage('Error connecting to backend'))
-  }, [])
-
-  return (
-    <div>
-      <h1>React + Express App</h1>
-      <p>{message}</p>
-    </div>
-  )
 }
-
-export default App

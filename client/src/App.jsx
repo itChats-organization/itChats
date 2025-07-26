@@ -5,6 +5,7 @@ import Navbar from './components/navBar'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NavBar from './components/navBar'
 import Chats from './pages/Chats'
+import AuthComponent from './components/Auth'
 export default function App(){
 
 return(
@@ -14,6 +15,7 @@ return(
       <Route path='/' element={<Home/>}/>
       <Route path="/chats" element={<Chats />} />
     </Routes>
+    <AuthComponent/>
   </Router>
 )
 

@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Home from './pages/home'
-import Navbar from './components/navBar'
+// import Home from './pages/home'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import NavBar from './components/navBar'
-import Chats from './pages/Chats'
+import SideBar from './components/sideBar'
+// import Chats from './pages/Chats'
+// import About from './pages/About'
+import MainContent from './components/mainContent'
+import './app.css'
 export default function App(){
 
 return(
   <Router>
-    <NavBar/>
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path="/chats" element={<Chats />} />
-    </Routes>
+    <section className='layout'>
+        <SideBar/>
+        
+      <section className='main-content'>
+        <MainContent/>
+      </section>
+    </section>
+
   </Router>
+  
 )
 
 }

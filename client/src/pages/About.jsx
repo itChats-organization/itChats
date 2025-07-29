@@ -1,5 +1,10 @@
-
+// Home.jsx
+import './their.css'
 
 export default function About() {
-  return <h1>This is the ABout Page</h1>;
+  return(
+    <div className="myBody">
+        <h1>Welcome to About</h1>
+    </div>
+  );
 }

@@ -1,29 +1,5 @@
-// import {Link} from 'react-router-dom'
-// import  './sideBar.css'
-// export default function SideBar(){
-//   return (
-//     <aside className='sidebar'>
-//       <h2 >GO to </h2>
-//       <nav>
-//         <section className='nav-home'>
-//           <Link to='/'>Home</Link>
-//         </section>
-//       <section className='nav-chats'>
-// <Link to='/Chats'>Chats</Link>
-//       </section>
-//       <section className='nav-about'>
-//       <Link to='/About'>About</Link>
 
-//       </section>
-      
-//       </nav>
-
-
-//     </aside>
-//   )
-// }
-
-
+// SideBar.jsx
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Home, MessageCircle, Info, Menu } from 'lucide-react'
@@ -45,11 +21,12 @@ export default function SideBar() {
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
-      <button className="menu-btn" onClick={toggleSidebar}>
-        <Menu size={24} />
-      </button>
-
-      {isOpen && <h2 className="sidebar-title">Navigation</h2>}
+      <div className="sidebar-header">
+        <button className="menu-btn" onClick={toggleSidebar}>
+          <Menu size={24} />
+        </button>
+        {isOpen && <h2 className="sidebar-title">itChats</h2>}
+      </div>
 
       <nav className="nav-links">
         {navItems.map(item => (
@@ -58,13 +35,12 @@ export default function SideBar() {
             to={item.path}
             className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
           >
-            {item.icon}
-            {isOpen && <span>{item.label}</span>}
+            <span className="nav-icon">{item.icon}</span>
+            {isOpen && <span className="nav-label">{item.label}</span>}
           </Link>
         ))}
       </nav>
     </aside>
   )
 }
-
 

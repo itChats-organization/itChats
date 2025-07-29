@@ -1,3 +1,10 @@
+// Home.jsx
+import './their.css'
+
 export default function Chats() {
-  return <h1>This is the Chats Page</h1>;
+  return(
+    <div className="myBody">
+        <h1>Welcome to Chats</h1>
+    </div>
+  );
 }

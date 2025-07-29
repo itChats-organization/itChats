@@ -1,3 +1,16 @@
-h1{
-    color: rgb(21, 23, 22);
+/* their.css */
+.myBody {
+    background: linear-gradient(80deg, #0b5a0b 10%, #1c5b16 60%, #118a29 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 2rem;
+}
+
+h1 {
+    color: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
 }

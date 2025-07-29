@@ -1,5 +1,5 @@
 .sidebar {
-    background: linear-gradient(20deg, #041704 0%, #1a7210 50%, #103918 100%);
+    background: linear-gradient(20deg, #041704 0%, #264750 50%, #1c3c49 100%);
     backdrop-filter: blur(20px);
     border-right: 1px solid rgba(59, 130, 246, 0.2);
     transition: all 0.3s ease;

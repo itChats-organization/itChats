@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import "../SignUp.css"
+import { Navigate, useNavigate } from 'react-router-dom';
 export default function SignUp() {
-
+  const navigate=useNavigate()
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ export default function SignUp() {
       alert('Password must be at least 6 characters long');
       return;
     }
-    
+    Navigate('/')
     console.log('Signup submitted:', formData);
     // Handle form submission logic here
   };

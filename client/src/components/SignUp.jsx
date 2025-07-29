@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import "../Auth.css"
-export default function AuthComponent() {
+import "../SignUp.css"
+export default function SignUp() {
 
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +31,7 @@ export default function AuthComponent() {
       return;
     }
     
-    console.log(isLogin ? 'Login submitted:' : 'Signup submitted:', formData);
+    console.log('Signup submitted:', formData);
     // Handle form submission logic here
   };
 
@@ -52,10 +52,10 @@ export default function AuthComponent() {
         {/* Header */}
         <div className="auth-header">
           <h1 className="auth-title">
-            {isLogin ? 'Welcome Back' : 'Create Account'}
+            {'Create Account'}
           </h1>
           <p className="auth-subtitle">
-            {isLogin ? 'Sign in to your account' : 'Sign up to get started'}
+            {'Sign up to get started'}
           </p>
         </div>
 
@@ -118,21 +118,9 @@ export default function AuthComponent() {
             onClick={handleSubmit}
             className="primary-input"
           >
-            {isLogin ? 'Sign In' : 'Sign Up'}
+            {'Sign Up'}
           </button>
         </div>
-
-        {/* Forgot Password (only show on login) */}
-        {isLogin && (
-          <div className="forgot-password-wrapper">
-            <button
-              type="button"
-              className="forgot-password-button"
-            >
-              Forgot your password?
-            </button>
-          </div>
-        )}
 
         {/* Divider */}
         <div className="divider">
@@ -175,13 +163,12 @@ export default function AuthComponent() {
         {/* Toggle Login/Signup */}
         <div className="auth-toggle">
           <p className="auth-toggle-text">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            {"Already have an account? "}
             <button
               type="button"
-              onClick={() => setIsLogin(!isLogin)}
               className="auth-toggle-button"
             >
-              {isLogin ? 'Sign up' : 'Sign in'}
+              {'Sign in'}
             </button>
           </p>
         </div>

@@ -1,8 +1,8 @@
-import AuthComponent from "../components/Auth"
+import SignUp from "../components/SignUp"
 
  const LoginPage = () => {
   return (
-    <div><AuthComponent/></div>
+    <div><SignUp/></div>
   )
 }
 export default LoginPage

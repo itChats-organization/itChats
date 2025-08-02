@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import "../SignUp.css"
-import { Navigate, useNavigate } from 'react-router-dom';
+import "../SignUp.css";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../context/AuthContext";
+
 export default function SignUp() {
-  const navigate=useNavigate()
-  const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+  const { signUp, googleSignUp } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    name:'~',
     email: '',
     password: ''
   });
@@ -18,55 +24,56 @@ export default function SignUp() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Basic form validation
+
     if (!formData.email || !formData.password) {
-      alert('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
-    
+
     if (formData.password.length < 6) {
-      alert('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return;
     }
-    Navigate('/')
-    console.log('Signup submitted:', formData);
-    // Handle form submission logic here
-  };
 
-  const handleSocialLogin = (provider) => {
-    console.log(`Continue with ${provider}`);
-    // Handle social login logic here
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSubmit(e);
+    try {
+      setError(null);
+      setLoading(true);
+      await signUp(formData.email, formData.password);
+      console.log('Sign-up successful');
+      navigate("/");
+    } catch (err) {
+      console.error("Sign-up failed", err);
+      setError("Sign-up failed. Try again.");
     }
+
+    setLoading(false);
+  };
+
+  const handleSocialLogin = async () => {
+    try {
+      setLoading(true);
+      await googleSignUp();
+      navigate("/");
+    } catch (err) {
+      console.error("Google sign-up failed", err);
+      setError("Google sign-up failed.");
+    }
+    setLoading(false);
   };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
-        {/* Header */}
         <div className="auth-header">
-          <h1 className="auth-title">
-            {'Create Account'}
-          </h1>
-          <p className="auth-subtitle">
-            {'Sign up to get started'}
-          </p>
+          <h1 className="auth-title">Create Account</h1>
+          <p className="auth-subtitle">Sign up to get started</p>
         </div>
 
-        {/* Form */}
         <div className="auth-form">
-          {/* Email Field */}
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
+            <label htmlFor="email" className="form-label">Email</label>
             <div className="input-wrapper">
               <Mail className="input-icon" />
               <input
@@ -75,7 +82,6 @@ export default function SignUp() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                onKeyDown={handleKeyPress}
                 className="form-input"
                 placeholder="Enter your email"
                 required
@@ -83,54 +89,50 @@ export default function SignUp() {
             </div>
           </div>
 
-          {/* Password Field */}
-      <div className="form-group">
-        <label htmlFor="password" className="form-label">
-          Password
-        </label>
-        <div className="input-wrapper">
-          <Lock className="input-icon" />
-          <input
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyPress}
-            className="form-input"
-            placeholder="Enter your password"
-            required
-            minLength={6}
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="toggle-button"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
-          >
-            {showPassword ? <EyeOff className="icon-toggle" /> : <Eye className="icon-toggle" />}
-          </button>
-        </div>
-      </div>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">Password</label>
+            <div className="input-wrapper">
+              <Lock className="input-icon" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="Enter your password"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="toggle-button"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="icon-toggle" /> : <Eye className="icon-toggle" />}
+              </button>
+            </div>
+          </div>
 
-          {/* Submit Button */}
+          {error && <div className="error-msg">{error}</div>}
+
           <button
             type="button"
             onClick={handleSubmit}
             className="primary-input"
+            disabled={loading}
           >
-            {'Sign Up'}
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </div>
 
-        {/* Divider */}
         <div className="divider">
           <div className="divider-line"></div>
           <span className="divider-text">or continue with</span>
           <div className="divider-line"></div>
         </div>
 
-        {/* Social Login Buttons */}
         <div className="social-buttons">
           {/* Google */}
           <button
@@ -146,30 +148,13 @@ export default function SignUp() {
             </svg>
             Continue with Google
           </button>
-
-          {/* Facebook */}
-          <button
-            type="button"
-            onClick={() => handleSocialLogin('Facebook')}
-            className="social-button"
-          >
-            <svg className="social-icon" fill="#1877F2" viewBox="0 0 24 24">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            Continue with Facebook
-          </button>
-
         </div>
 
-        {/* Toggle Login/Signup */}
         <div className="auth-toggle">
           <p className="auth-toggle-text">
             {"Already have an account? "}
-            <button
-              type="button"
-              className="auth-toggle-button"
-            >
-              {'Sign in'}
+            <button type="button" className="auth-toggle-button" onClick={() => navigate("/signin")}>
+              Sign in
             </button>
           </p>
         </div>
